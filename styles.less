@@ -1,0 +1,495 @@
+@import "less/elements.less"; //автоустановка префиксов
+
+/****
+
+Variables
+
+****/
+
+//sprites
+@sprite-background: url(sprites/background.jpg);
+@sprite-back-ocean: url(sprites/back_ocean.jpg);
+@shapes-sprite-list: url(sprites/shapes.png);
+@sprite-portrait: url(sprites/portrait.png);
+@sprite-pawl: url(sprites/pawl.png);
+@sprite-pipe: url(sprites/pipe.png);
+@sprite-water: url(sprites/water.png);
+@sprite-grid: url(sprites/grid.png);
+@sprite-sound-on: url(sprites/icon/sound_on.png);
+@sprite-sound-off: url(sprites/icon/sound_off.png);
+
+@sprite-btn: url(sprites/icon/casual.png);
+@sprite-btn-hover: url(sprites/icon/hover.png);
+
+//sizes
+@game-width: 760px;
+@game-height: 550px;
+
+@shape-size: 44px;
+@field-size: 450px;
+
+@base-checkbox-width: 67px;
+@base-checkbox-height: 50px;
+@base-btn-width: 125px;
+@base-btn-height: 90px;
+
+//fonts
+@base-font: 'Arial Regular', 'Arial', 'Regular';
+@base-font-size: 12px;
+@base-font-color: #000;
+
+@special-font: 'DS_StandartCyr';
+@special-font-size: 60px;
+
+@font-face{
+	font-family: @special-font;
+	src: url(fonts/CaviarDreams.ttf) format('truetype'); //Все шрифты DS_Standard которые я нашёл были ломанными, поставил рандомный шрифт с FontSquirrel
+}
+
+//colors
+@player-name-color: #ffe288;
+@points-color: #008c5e;
+
+
+
+/****
+
+Mixins
+
+****/
+
+.mixin-stretch{
+	width: @game-width;
+	height: @game-height;
+}
+
+.mixin-absolute-center{
+	margin: 0 auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+}
+
+/****
+
+Динамические элементы. 
+Их много и они создаются js-скриптом, а не прописаны в вёрстке.
+
+****/
+
+.shape{
+	background-image: @shapes-sprite-list;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: @shape-size;
+	height: @shape-size;
+}
+
+.shape_blue{
+	.shape;
+	background-position: 0 0;
+}
+
+.shape_violet{
+	.shape;
+	background-position: 24.5% 0;
+}
+
+.shape_red{
+	.shape;
+	background-position: 50% 0;
+}
+
+.shape_yellow{
+	.shape;
+	background-position: 74.5% 0;
+}
+
+.shape_green{
+	.shape;
+	background-position: 99% 0;
+}
+
+.tile{
+	width: 48px;
+	height: 48px;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.tile:hover{
+	background-color: rgba(0, 0, 0, 1);
+}
+
+
+/****
+
+Статические элементы.
+Прописаны в вёрстке
+
+****/
+
+#site-wrapper{
+	.mixin-stretch;
+	margin: 20px auto;
+}
+
+//Блоки игровой области
+#game{
+	.mixin-stretch;
+	background-image: @sprite-background;
+	position: absolute;
+
+	& *{
+		position: absolute;
+	}
+
+	br{
+		position: relative;
+	}
+
+	.checkbox{
+		width: @base-checkbox-width;
+		height: @base-checkbox-height;
+		display: block;
+	
+		&__fish{
+			width: 100%;
+			height: 100%;
+
+			background-image: @sprite-btn;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+	
+		&__fish_right{
+			.scale(@ratioX: -1, @ratioY: 1);
+		}
+	
+		&__icon{
+			left: 24px;
+			line-height: @base-checkbox-height + 1;
+		}
+	
+		& > input[type = "checkbox"]{
+			visibility: hidden;
+		}
+	
+		&:hover .checkbox__fish{
+			background-image: @sprite-btn-hover;
+		}
+		
+		& > input[type = "checkbox"]:checked ~ .checkbox__fish{
+    		background-position: 0 1px;
+    		background-image: @sprite-btn-hover;
+   		}
+	
+   		& > input[type = "checkbox"]:checked ~ .checkbox__icon{
+   			.transform(translateY(1px));
+   		}
+
+   		&:active .checkbox__fish{
+    		background-position: 0 1px;
+    		background-image: @sprite-btn-hover;
+   		}
+	
+   		&:active .checkbox__icon{
+   			.transform(translateY(1px));
+   		}
+
+   		input[name = "pause"] ~ .checkbox__icon{
+			font-family: @base-font;
+			font-weight: 800;
+			color: #000;
+			font-size: 19px;
+   		}
+
+   		input[name = "sound"] ~ .checkbox__icon{
+			width: 19px;
+			height: 20px;
+			
+			top: 17px;
+			left: 18px;
+
+			background-image: @sprite-sound-off;
+			background-repeat: no-repeat;
+			background-size: cover;
+   		}
+
+   		input[name = "sound"]:checked ~ .checkbox__icon{
+			background-image: @sprite-sound-off;
+   		}
+	}
+	
+	.btn{
+		width: @base-btn-width;
+		height: @base-btn-height;
+		display: block;
+
+		&__fish{
+			width: 100%;
+			height: 100%;
+
+			background-image: @sprite-btn;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		&__fish_right{
+			.scale(@ratioX: -1, @ratioY: 1);
+		}
+
+		& > input[type = "button"]{
+			visibility: hidden;
+		}
+
+		&:hover .btn__fish{
+			background-image: @sprite-btn-hover;
+		}
+
+		&:active .btn__fish{
+			background-position: 0 1px;
+			background-image: @sprite-btn-hover;
+		}
+
+		&:active .btn__icon{
+			.transform(translateY(1px));
+		}
+
+		&__icon{
+			left: 24px;
+			line-height: @base-btn-height + 1px;
+		}
+
+		&__fish_right + .btn__icon{
+			left: 57px;
+		}
+	}
+
+	.btn_right{
+		left: 60%;
+	}
+
+	.btn_left{
+		left: 25%;
+	}
+	
+	//блок следующих цветов
+	.next-colors{		
+		.mixin-absolute-center;
+		top: 3px;
+
+		&__text-field{
+			position: relative;
+			color: white;
+			font-size: 12px;
+			font-family: @base-font;
+			text-align: center;
+			text-shadow: 0px 0px 1px white;
+		}
+
+		&__shape-field{
+			position: relative;
+			padding-top: 2px;
+			text-align: center;
+		}
+
+		&__shape{
+			position: relative;
+			display: inline-block;
+			width: 32px;
+			height: 32px;
+		}
+	}
+	
+	//блок игрока
+	.score{
+		@score-width: 65px;
+		@score-margin: 74px;
+		@pipe-height: 500px;
+
+		width: @score-width;
+		height: @game-height;
+
+		&_left{
+			left: @score-margin;
+		}
+
+		&_right{
+			left: @game-width - @score-margin - @score-width;
+		}
+
+		&__counter{
+			.border-radius(5px, 5px, 5px, 5px);
+			.gradient(white, #cfcfcf, #fbfbfb);
+
+			width: @score-width - 3px;
+			top: 5px;
+			left: 2px;
+			
+			color: @points-color;
+			text-align: center;
+			font-family: @base-font;
+		}
+
+		&__pipe{
+			.mixin-absolute-center;
+			width: 48px;
+			height: @pipe-height;
+			top: 40px;
+			background-image: @sprite-water, @sprite-pipe;
+			background-repeat: no-repeat;
+			background-position: 50% 500px, center; //500px - min
+		}
+
+		&__player{
+			.mixin-absolute-center;
+			top: 448px;
+			width: @score-width;
+			height: 92px;
+		}
+
+		&__name-field{
+			width: 100%;
+			height: 16px;
+			top: 1px;
+
+			background-color: @player-name-color;
+			.border-radius(5px, 5px, 5px, 5px);
+			padding: 0 2px;
+			
+			text-shadow: 0px 0px 1px @base-font-color;
+			text-align: center;
+			font-family: @base-font;
+			font-size: @base-font-size;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			& *{
+				position: relative;
+			}
+		}
+
+		&__pawl{
+			.mixin-absolute-center;
+			top: 24px;
+			width: 60px;
+			background-image: @sprite-pawl;
+		}
+
+		&__portrait{
+			.mixin-absolute-center;
+			background-image: @sprite-portrait;
+			background-repeat: no-repeat;
+			top: 12px;
+			right: 1px;
+			width: 50px;
+			height: 50px;
+		}
+	}
+	
+	//игровое поле
+	.game-field{
+		.mixin-absolute-center;
+		width: 450px;
+		height: 450px;
+		top: 77px;
+		background-image: @sprite-grid;
+		background-position: -155px -76px;
+	}
+
+	//блок с кнопками
+	.btns-wrapper{
+		@modal-top-margin: 40px;
+
+		position: absolute;
+		top: @modal-top-margin;
+		left: @game-width - @base-checkbox-width - 12px;
+
+		.modal{
+			display: none;
+			top: -@modal-top-margin*2 - 16px;
+			left: @base-checkbox-width + 12px - @game-width;
+		}
+
+		input[name = "pause"]:checked ~ .modal{ //Проще и правильнее было бы вызывать через js, но так тоже можно
+			display: block;
+		}
+
+		& > .checkbox{
+			position: relative;
+			margin-bottom: 6px;
+		}
+
+		& > .checkbox__fish{
+			left: -7px;
+		}
+	}
+	
+	//общие правила модального окна
+	.modal{
+		.mixin-stretch;
+		.mixin-absolute-center;
+		z-index: 100;
+		
+		&__text-wrapper{
+			text-align: center;
+			width: 100%;
+			top: 184px;	
+		}
+
+		&__text{
+			left: 0;
+			width: 100%;
+			font-family: @special-font;
+			font-size: @special-font-size;
+			color: white;
+		}
+	}
+
+	//частное модальное окно паузы
+	.modal_pause{
+		background-image: @sprite-back-ocean;
+
+		.btn{
+			@btn-margin-left: 206px;
+			top: 370px;
+
+			&__icon{
+				font-family: 'Regular', 'Tahoma';
+				font-size: 30px;
+				text-shadow: 0px 0px 1px @base-font-color;
+			}
+			
+			&:nth-child(2){
+				left: @btn-margin-left;
+			}
+
+			&:nth-child(3){
+				left: @game-width - @btn-margin-left - @base-btn-width;
+			}
+		}
+	}
+}
+
+/****
+
+Временные стили
+!!!Отключить при программировании!!!
+Нужны для демонстрации вёрстки
+
+****/
+
+#player-portrait{
+	top: 310px !important;
+}
+
+#player-pipe{
+	background-position: 50% 350px, center !important;
+}
+
+#enemy-portrait{
+	top: 169px !important;
+}
+
+#enemy-pipe{
+	background-position: 50% 200px, center !important;
+}
