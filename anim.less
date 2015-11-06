@@ -1,0 +1,62 @@
+@base-sprite-width: 60px;
+@base-sprite-height: 40px;
+
+@sprites-atlas: url(sprites/anim/anim_sprite.png);
+
+#site-wrapper{
+	width: 100%;
+	height: 600px;
+
+	.animations{
+		@margin: 20px;
+
+		position: absolute;
+		width: @base-sprite-width + 2*@margin;
+		height: @base-sprite-height*2 + 4*@margin;
+		margin: auto;
+		left: 0; right: 0; top: 0; bottom: 0;
+
+		#one, #two{
+			width: @base-sprite-width;
+			height: @base-sprite-height;
+			margin: @margin;
+			background: @sprites-atlas no-repeat;
+			background-position: 0 0;	
+		}
+
+		#one{
+			animation: one 3s steps(2);
+			animation-delay: 2s;
+			animation-fill-mode: both;
+		}
+
+		#two{
+			animation: two 10s infinite;
+			animation-timing-function: steps(1, start);
+		}
+	}
+}
+
+@keyframes one{
+	100%{ 
+		background-position: -120px 0;
+	}
+}
+
+@keyframes two{
+	0{
+		background-position: 0 0;
+	}
+
+	10%{
+		background-position: 0 0;
+	}
+
+	20%{
+		background-position: -60px 0;
+	}
+
+	100%{
+		background-position: -120px 0;
+	}
+}

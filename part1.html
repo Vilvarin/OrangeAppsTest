@@ -3,7 +3,8 @@
 <head>
 	<title>OrangeAppsTest</title>
 	<meta charset="utf-8">
-
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
 	<link rel="stylesheet/less" type="text/css" href="styles.less" />
 	<script src="js/less.min.js" type="text/javascript"></script>
 </head>
@@ -11,7 +12,8 @@
 	<div id="site-wrapper">
 		<div id="game">
 			<div class="score score_left">
-				<div class="score__pipe" id="player-pipe"></div>
+				<div class="score__pipe"></div>
+				<div class="score__water" id="player-water2"></div>
 				<div class="score__counter" id="player-counter">12457</div>
 				<div class="score__player" id="player-portrait">
 					<div class="score__name-field"><span id="player-name">Вы</span></div>
@@ -22,7 +24,8 @@
 			</div>
 
 			<div class="score score_right">
-				<div class="score__pipe" id="enemy-pipe"></div>
+				<div class="score__pipe"></div>
+				<div class="score_water" id="enemy-water"></div>
 				<div class="score__counter" id="enemy-counter">12457</div>
 				<div class="score__player" id="enemy-portrait">
 					<div class="score__name-field"><span id="enemy-name">Анастасияzzz<span></div>
@@ -44,43 +47,45 @@
 			<div class="game-field">
 			</div>
 
-			<div class="btns-wrapper btns-field_game">
+			<div class="btns-wrapper">
 				<label class="checkbox">
 					<input type="checkbox" value="1" name="sound">
 					<span class="checkbox__fish checkbox__fish_left"></span>
 					<span class="checkbox__icon"></span>
 				</label>
 
-				<label class="checkbox">
-					<input type="checkbox" value="1" name="pause">
-					<span class="checkbox__fish checkbox__fish_left"></span>
-					<span class="checkbox__icon">II</span>
-
-					<div class="modal modal_pause">
-						<div class="modal__text-wrapper">
-							<span class="modal__text">
-								Игра остановлена.<br>
-								Выйти из игры?
-							</span>
-						</div>
-
-						<label class="btn btn_right">
-							<input type="button" name="ok">	
-							<span class="btn__fish btn__fish_right"></span>					
-							<span class="btn__icon">да</span>
-						</label>
-
-						<label class="btn btn_right">
-							<input type="button" name="cancel">
-							<span class="btn__fish btn__fish_left"></span>					
-							<span class="btn__icon">нет</span>
-						</label>
-					</div>
+				<label id="pause" class="btn">
+					<input type="button" name="pause">
+					<span class="btn__fish btn__fish_left"></span>
+					<span class="btn__icon">II</span>				
 				</label>
 			</div>
+
+			<div class="modal modal_pause hidden">
+				<div class="modal__text-wrapper">
+					<span class="modal__text">
+						Игра остановлена.<br>
+						Выйти из игры?
+					</span>
+				</div>
+
+				<label class="btn btn_big btn_right">
+					<input type="button" name="ok">	
+					<span class="btn__fish btn__fish_right"></span>					
+					<span class="btn__icon">да</span>
+				</label>
+
+				<label id="cancel" class="btn btn_big btn_right">
+					<input type="button" name="cancel">
+					<span class="btn__fish btn__fish_left"></span>					
+					<span class="btn__icon">нет</span>
+				</label>
+			</div>
+
 		</div>
 	</div>
 <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="js/filling_field.js" type="text/javascript"></script>
+<script src="js/script.js" type="text/javascript"></script>
 </body>
 </html>

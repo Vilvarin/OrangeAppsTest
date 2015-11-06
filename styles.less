@@ -1,5 +1,13 @@
 @import "less/elements.less"; //автоустановка префиксов
 
+@font-face{
+	font-family: @special-font;
+	src: url(fonts/CaviarDreams.eot);
+	src: url(fonts/CaviarDreams.eot?#iefix) format('embedded-opentype'),
+	     url(fonts/CaviarDreams.woff) format('woff'),
+		 url(fonts/CaviarDreams.ttf) format('truetype'); //Все шрифты DS_Standard которые я нашёл были ломанными, поставил рандомный шрифт с FontSquirrel
+}
+
 /****
 
 Variables
@@ -28,10 +36,10 @@ Variables
 @shape-size: 44px;
 @field-size: 450px;
 
-@base-checkbox-width: 67px;
-@base-checkbox-height: 50px;
-@base-btn-width: 125px;
-@base-btn-height: 90px;
+@base-btn-width: 67px;
+@base-btn-height: 50px;
+@big-btn-width: 125px;
+@big-btn-height: 90px;
 
 //fonts
 @base-font: 'Arial Regular', 'Arial', 'Regular';
@@ -40,11 +48,6 @@ Variables
 
 @special-font: 'DS_StandartCyr';
 @special-font-size: 60px;
-
-@font-face{
-	font-family: @special-font;
-	src: url(fonts/CaviarDreams.ttf) format('truetype'); //Все шрифты DS_Standard которые я нашёл были ломанными, поставил рандомный шрифт с FontSquirrel
-}
 
 //colors
 @player-name-color: #ffe288;
@@ -64,7 +67,7 @@ Mixins
 }
 
 .mixin-absolute-center{
-	margin: 0 auto;
+	margin: auto;
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 }
@@ -112,11 +115,18 @@ Mixins
 .tile{
 	width: 48px;
 	height: 48px;
-	background-color: rgba(0, 0, 0, 0);
+
+	border: 1px solid #5e9ec3;
+
+	background-color: transparent;
 }
 
 .tile:hover{
 	background-color: rgba(0, 0, 0, 1);
+}
+
+.hidden{
+	visibility: hidden;
 }
 
 
@@ -147,8 +157,8 @@ Mixins
 	}
 
 	.checkbox{
-		width: @base-checkbox-width;
-		height: @base-checkbox-height;
+		width: @base-btn-width;
+		height: @base-btn-height;
 		display: block;
 	
 		&__fish{
@@ -166,7 +176,7 @@ Mixins
 	
 		&__icon{
 			left: 24px;
-			line-height: @base-checkbox-height + 1;
+			line-height: @base-btn-height + 1;
 		}
 	
 		& > input[type = "checkbox"]{
@@ -177,12 +187,12 @@ Mixins
 			background-image: @sprite-btn-hover;
 		}
 		
-		& > input[type = "checkbox"]:checked ~ .checkbox__fish{
+		input[type = "checkbox"]:checked ~ .checkbox__fish{
     		background-position: 0 1px;
     		background-image: @sprite-btn-hover;
    		}
 	
-   		& > input[type = "checkbox"]:checked ~ .checkbox__icon{
+   		input[type = "checkbox"]:checked ~ .checkbox__icon{
    			.transform(translateY(1px));
    		}
 
@@ -193,13 +203,6 @@ Mixins
 	
    		&:active .checkbox__icon{
    			.transform(translateY(1px));
-   		}
-
-   		input[name = "pause"] ~ .checkbox__icon{
-			font-family: @base-font;
-			font-weight: 800;
-			color: #000;
-			font-size: 19px;
    		}
 
    		input[name = "sound"] ~ .checkbox__icon{
@@ -215,7 +218,7 @@ Mixins
    		}
 
    		input[name = "sound"]:checked ~ .checkbox__icon{
-			background-image: @sprite-sound-off;
+			background-image: @sprite-sound-on;
    		}
 	}
 	
@@ -262,6 +265,13 @@ Mixins
 		&__fish_right + .btn__icon{
 			left: 57px;
 		}
+
+		input[name = "pause"] ~ .btn__icon{
+			font-family: @base-font;
+			font-weight: 800;
+			color: #000;
+			font-size: 19px;
+   		}
 	}
 
 	.btn_right{
@@ -270,6 +280,11 @@ Mixins
 
 	.btn_left{
 		left: 25%;
+	}
+
+	.btn_big{
+		width: @big-btn-width;
+		height: @big-btn-height;
 	}
 	
 	//блок следующих цветов
@@ -330,19 +345,26 @@ Mixins
 			font-family: @base-font;
 		}
 
-		&__pipe{
+		.score__pipe{
 			.mixin-absolute-center;
 			width: 48px;
 			height: @pipe-height;
-			top: 40px;
-			background-image: @sprite-water, @sprite-pipe;
+			//top: 30px;
+			background-image: @sprite-pipe;
 			background-repeat: no-repeat;
-			background-position: 50% 500px, center; //500px - min
+			background-position: center;
+		}
+
+		&__water{
+			.score__pipe;
+			background-image: @sprite-water;
+			background-repeat: no-repeat;
+			background-position: 50% 1000%;
 		}
 
 		&__player{
 			.mixin-absolute-center;
-			top: 448px;
+			top: 438px;
 			width: @score-width;
 			height: 92px;
 		}
@@ -379,7 +401,7 @@ Mixins
 			.mixin-absolute-center;
 			background-image: @sprite-portrait;
 			background-repeat: no-repeat;
-			top: 12px;
+			top: 6px;
 			right: 1px;
 			width: 50px;
 			height: 50px;
@@ -389,11 +411,28 @@ Mixins
 	//игровое поле
 	.game-field{
 		.mixin-absolute-center;
+		top: 54px;
+		border: 1px solid #5e9ec3;
 		width: 450px;
 		height: 450px;
-		top: 77px;
-		background-image: @sprite-grid;
-		background-position: -155px -76px;
+		
+		.tile, .str{
+			position: relative;
+		}
+
+		.str{
+			width: 450px;
+		}
+
+		.tile{
+			width: 48px;
+			height: 48px;
+			float: left;
+		}
+
+		.shape{
+			.mixin-absolute-center;
+		}
 	}
 
 	//блок с кнопками
@@ -402,17 +441,7 @@ Mixins
 
 		position: absolute;
 		top: @modal-top-margin;
-		left: @game-width - @base-checkbox-width - 12px;
-
-		.modal{
-			display: none;
-			top: -@modal-top-margin*2 - 16px;
-			left: @base-checkbox-width + 12px - @game-width;
-		}
-
-		input[name = "pause"]:checked ~ .modal{ //Проще и правильнее было бы вызывать через js, но так тоже можно
-			display: block;
-		}
+		left: @game-width - @base-btn-width - 12px;
 
 		& > .checkbox{
 			position: relative;
@@ -429,6 +458,7 @@ Mixins
 		.mixin-stretch;
 		.mixin-absolute-center;
 		z-index: 100;
+		background-image: @sprite-back-ocean;
 		
 		&__text-wrapper{
 			text-align: center;
@@ -443,20 +473,18 @@ Mixins
 			font-size: @special-font-size;
 			color: white;
 		}
-	}
-
-	//частное модальное окно паузы
-	.modal_pause{
-		background-image: @sprite-back-ocean;
 
 		.btn{
 			@btn-margin-left: 206px;
+
 			top: 370px;
 
 			&__icon{
 				font-family: 'Regular', 'Tahoma';
 				font-size: 30px;
 				text-shadow: 0px 0px 1px @base-font-color;
+
+				top: 20px;
 			}
 			
 			&:nth-child(2){
@@ -464,7 +492,7 @@ Mixins
 			}
 
 			&:nth-child(3){
-				left: @game-width - @btn-margin-left - @base-btn-width;
+				left: @game-width - @btn-margin-left - @big-btn-width;
 			}
 		}
 	}
@@ -479,15 +507,15 @@ Mixins
 ****/
 
 #player-portrait{
-	top: 310px !important;
+//	top: 160px !important;
 }
 
 #player-pipe{
-	background-position: 50% 350px, center !important;
+//	background-position: 50% 350px, center !important;
 }
 
 #enemy-portrait{
-	top: 169px !important;
+	top: -120px !important;
 }
 
 #enemy-pipe{
