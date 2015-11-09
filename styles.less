@@ -5,7 +5,8 @@
 	src: url(fonts/CaviarDreams.eot);
 	src: url(fonts/CaviarDreams.eot?#iefix) format('embedded-opentype'),
 	     url(fonts/CaviarDreams.woff) format('woff'),
-		 url(fonts/CaviarDreams.ttf) format('truetype'); //Все шрифты DS_Standard которые я нашёл были ломанными, поставил рандомный шрифт с FontSquirrel
+		 url(fonts/CaviarDreams.ttf) format('truetype'); 
+		 //Все шрифты DS_Standard которые я нашёл были ломанными, поставил рандомный шрифт с FontSquirrel
 }
 
 /****
@@ -15,8 +16,8 @@ Variables
 ****/
 
 //sprites
-@sprite-background: url(sprites/background.jpg);
-@sprite-back-ocean: url(sprites/back_ocean.jpg);
+@sprite-background: url(sprites/back_ocean.jpg);
+@sprite-back-next-colors: url(sprites/next_color_back.png);
 @shapes-sprite-list: url(sprites/shapes.png);
 @sprite-portrait: url(sprites/portrait.png);
 @sprite-pawl: url(sprites/pawl.png);
@@ -290,10 +291,14 @@ Mixins
 	//блок следующих цветов
 	.next-colors{		
 		.mixin-absolute-center;
-		top: 3px;
+		margin: 0 auto;
+		width: 180px;
+		height: 72px;
+		background-image: @sprite-back-next-colors;
 
 		&__text-field{
 			position: relative;
+			top: 3px;
 			color: white;
 			font-size: 12px;
 			font-family: @base-font;
@@ -303,6 +308,7 @@ Mixins
 
 		&__shape-field{
 			position: relative;
+			top: 3px;
 			padding-top: 2px;
 			text-align: center;
 		}
@@ -349,7 +355,7 @@ Mixins
 			.mixin-absolute-center;
 			width: 48px;
 			height: @pipe-height;
-			//top: 30px;
+			top: 30px;
 			background-image: @sprite-pipe;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -357,16 +363,22 @@ Mixins
 
 		&__water{
 			.score__pipe;
+
 			background-image: @sprite-water;
 			background-repeat: no-repeat;
-			background-position: 50% 1000%;
+			background-position: 50% 490px;
+
+			.transition(@ease: linear);
 		}
 
 		&__player{
 			.mixin-absolute-center;
-			top: 438px;
+			margin: 0 auto;
+			top: 448px;
 			width: @score-width;
 			height: 92px;
+
+			.transition(@ease: linear);
 		}
 
 		&__name-field{
@@ -458,7 +470,7 @@ Mixins
 		.mixin-stretch;
 		.mixin-absolute-center;
 		z-index: 100;
-		background-image: @sprite-back-ocean;
+		background-image: @sprite-background;
 		
 		&__text-wrapper{
 			text-align: center;
@@ -503,21 +515,24 @@ Mixins
 Временные стили
 !!!Отключить при программировании!!!
 Нужны для демонстрации вёрстки
+Поднимают иконки игроков до уровня как на макете
 
 ****/
 
+/*
 #player-portrait{
-//	top: 160px !important;
+	top: 160px !important;
 }
 
 #player-pipe{
-//	background-position: 50% 350px, center !important;
+	background-position: 50% 350px, center !important;
 }
+*/
 
 #enemy-portrait{
-	top: -120px !important;
+	top: 170px !important;
 }
 
-#enemy-pipe{
-	background-position: 50% 200px, center !important;
+#enemy-water{
+	background-position: 50% 220px, center !important;
 }

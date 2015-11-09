@@ -1,3 +1,6 @@
+"use strict";
+//Скрипт заполняет игровое поле фишечками
+//и задаёт начальные следующие цвета
 $(function(){
 	for(var y = 0; y < 9; y ++){
 		$('.game-field').append('<div class="str" id="str_' + y + '"></div>');
@@ -24,4 +27,13 @@ $(function(){
 
 	$('#player-counter').text(0);
 	$('#enemy-counter').text(12345);
+
+	var regExp = new RegExp(/shape_\w+/);
+	var color_1 = next_color_1.className.match(regExp);
+	var color_2 = next_color_2.className.match(regExp);
+	var color_3 = next_color_3.className.match(regExp);
+
+	$('#next_color_1').removeClass(color_1[0]).addClass(randomShape());
+	$('#next_color_2').removeClass(color_1[0]).addClass(randomShape());
+	$('#next_color_3').removeClass(color_1[0]).addClass(randomShape());
 });
